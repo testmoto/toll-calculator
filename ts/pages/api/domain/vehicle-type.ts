@@ -5,4 +5,5 @@ export enum VehicleType {
   Diplomat = 'Diplomat',
   Foreign = 'Foreign',
   Military = 'Military',
+  Car = 'Car',
 }
