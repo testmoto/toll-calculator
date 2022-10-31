@@ -1,3 +1,4 @@
+//#region imports
 import {
   Alert,
   Button,
@@ -14,6 +15,7 @@ import {
 import { parseISO } from 'date-fns';
 import {
   FormEventHandler,
+  SyntheticEvent,
   useCallback,
   useEffect,
   useRef,
@@ -23,6 +25,7 @@ import { VehicleType } from './api/domain/vehicle-type';
 import { TollReportOutput } from './api/dto/toll-report-output.dto';
 import { getISODateString, getISOTimeString } from './api/lib/get-iso-date';
 import { fetchTollReport } from './hooks/fetch-toll-report';
+//#endregion
 
 export default function Home() {
   const [toll, setToll] = useState(0);
@@ -34,15 +37,26 @@ export default function Home() {
 
   const handleSubmit = useCallback<FormEventHandler<HTMLFormElement>>(ev => {
     ev.preventDefault();
+    setError('');
+
     const date = parseISO(
       `${dateRef.current!.value}T${timeRef.current!.value}:00Z`,
     );
-    setDates(dates => [...dates, date]);
+
+    if (isNaN(date.getTime())) {
+      setError('Invalid date');
+    } else {
+      setDates(dates => [...dates, date]);
+    }
   }, []);
 
-  const handleDeleteItem = useCallback((index: number) => {
-    setDates(dates => dates.filter((_, i) => i !== index));
-  }, []);
+  const handleDeleteItem = useCallback(
+    (ev: SyntheticEvent<HTMLButtonElement>) => {
+      const index = Number(ev.currentTarget.dataset.index ?? -1);
+      setDates(dates => dates.filter((_, i) => i !== index));
+    },
+    [],
+  );
 
   useEffect(
     function fetchDataOnDatesChange() {
@@ -67,7 +81,7 @@ export default function Home() {
   );
 
   return (
-    <Container size="sm" sx={{ padding: '2em' }}>
+    <Container size="sm" sx={containerStyle}>
       <form onSubmit={handleSubmit}>
         <Group grow>
           <Select
@@ -95,7 +109,7 @@ export default function Home() {
         </Group>
       </form>
       <Space />
-      <h1>Toll: {toll}</h1>
+      <h1>Toll: {toll} kr</h1>
       <Space />
       <Stack>
         {error && (
@@ -111,7 +125,7 @@ export default function Home() {
             key={date.toISOString() + id}
           >
             <Group>
-              <Stack sx={{ flexGrow: 1 }}>
+              <Stack sx={stackStyle}>
                 <Text>
                   <b>{formatter.format(date)}</b>
                 </Text>
@@ -120,7 +134,8 @@ export default function Home() {
               <Button
                 variant="outline"
                 color="gray"
-                onClick={() => handleDeleteItem(dates.indexOf(date))}
+                data-index={id}
+                onClick={handleDeleteItem}
               >
                 Remove
               </Button>
@@ -132,15 +147,20 @@ export default function Home() {
   );
 }
 
-const vehicleTypeOptions = Object.values(VehicleType).map(i => ({
-  value: i,
-  label: i,
+// form data
+const vehicleTypeOptions = Object.values(VehicleType).map(vehicleType => ({
+  value: vehicleType,
+  label: vehicleType,
 }));
 const defaultDate = getISODateString(new Date());
 const defaultTime = getISOTimeString(new Date());
 
+// styles
 const inputStyle = { minWidth: 120 };
+const containerStyle = { padding: '2em' };
+const stackStyle = { flexGrow: 1 };
 
+// helpers
 const formatter = new Intl.DateTimeFormat('en-US', {
   hour: 'numeric',
   hour12: false,

@@ -5,11 +5,8 @@ import {
   Post,
   ValidationPipe,
 } from 'next-api-decorators';
-import {
-  createTollReport,
-  InvalidVehicleException,
-} from './app/create-toll-report';
-import { VehicleType } from './domain/vehicle-type';
+import { createTollReport } from './app/create-toll-report';
+import { InvalidVehicleException } from './app/exceptions/invalid-vehicle-exception';
 import { TollReportInput } from './dto/toll-report-input.dto';
 import { TollReportOutput } from './dto/toll-report-output.dto';
 import { invalidVehicleInterceptor } from './interceptors/invalid-vehicle.interceptor';

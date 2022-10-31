@@ -1,7 +1,7 @@
 import { Type } from 'class-transformer';
 import { IsArray, IsDate, IsEnum, IsString } from 'class-validator';
 import { VehicleType } from '../domain/vehicle-type';
-import { IsSameDay } from '../interceptors/is-same-day.validator';
+import { IsSameDay } from '../validators/is-same-day.validator';
 
 export class TollReportInput {
   @IsString()

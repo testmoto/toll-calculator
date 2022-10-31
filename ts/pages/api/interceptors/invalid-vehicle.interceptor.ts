@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { InvalidVehicleException } from '../app/create-toll-report';
+import { InvalidVehicleException } from '../app/exceptions/invalid-vehicle-exception';
 
 export function invalidVehicleInterceptor(
   error: InvalidVehicleException,

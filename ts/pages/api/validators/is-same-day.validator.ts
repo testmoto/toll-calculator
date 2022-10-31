@@ -15,7 +15,9 @@ export function IsSameDay() {
         validate(values: any) {
           if (values.length === 0) return true;
           if (!isDateArray(values)) return false;
-          const commonDate = new Set(values.map(i => getISODateString(i)));
+          const commonDate = new Set(
+            values.map(date => getISODateString(date)),
+          );
           return commonDate.size === 1;
         },
       },
@@ -26,6 +28,6 @@ export function IsSameDay() {
 function isDateArray(value: unknown): value is Date[] {
   return (
     Array.isArray(value) &&
-    value.every(i => i instanceof Date && !isNaN(i.getTime()))
+    value.every(item => item instanceof Date && !isNaN(item.getTime()))
   );
 }
