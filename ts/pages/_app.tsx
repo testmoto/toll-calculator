@@ -1,14 +1,23 @@
-import 'reflect-metadata';
-
-import { NextUIProvider } from '@nextui-org/react';
+import { MantineProvider } from '@mantine/core';
 import { AppProps } from 'next/app';
+import Head from 'next/head';
 
-function TollCalculatorApp({ Component, pageProps }: AppProps) {
+export default function App(props: AppProps) {
+  const { Component, pageProps } = props;
+
   return (
-    <NextUIProvider>
-      <Component {...pageProps} />
-    </NextUIProvider>
+    <>
+      <Head>
+        <title>Page title</title>
+        <meta
+          name="viewport"
+          content="minimum-scale=1, initial-scale=1, width=device-width"
+        />
+      </Head>
+
+        <MantineProvider withGlobalStyles withNormalizeCSS>
+          <Component {...pageProps} />
+        </MantineProvider>
+    </>
   );
 }
-
-export default TollCalculatorApp;

@@ -1,5 +1,6 @@
 import { registerDecorator } from 'class-validator';
-import { formatISO } from 'date-fns';
+
+import { getISODateString } from '../lib/get-iso-date';
 
 export function IsSameDay() {
   return function (object: Object, propertyName: string) {
@@ -14,11 +15,7 @@ export function IsSameDay() {
         validate(values: any) {
           if (values.length === 0) return true;
           if (!isDateArray(values)) return false;
-
-          const commonDate = new Set(
-            values.map(i => formatISO(i, { representation: 'date' })),
-          );
-
+          const commonDate = new Set(values.map(i => getISODateString(i)));
           return commonDate.size === 1;
         },
       },
