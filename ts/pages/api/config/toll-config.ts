@@ -1,4 +1,4 @@
-import { getDate, getMonth, getYear, isWeekend, startOfDay } from 'date-fns';
+import { getDate, getMonth, getYear, isWeekend } from 'date-fns';
 import { TollRate } from '../domain/toll-rate';
 import { VehicleType } from '../domain/vehicle-type';
 import { startOfUTCDay } from '../lib/start-of-utc-day';
@@ -16,7 +16,7 @@ export class TollConfig {
 
     const year = getYear(date).toString();
     const month = (getMonth(date) + 1).toString().padStart(2, '0');
-    const day = getDate(date).toString();
+    const day = getDate(date).toString().padStart(2, '0');
 
     return (
       !!tollFreeDates[year]?.[month]?.[day] ||
@@ -29,7 +29,13 @@ export class TollConfig {
     const foundRate = rates.find(i => i.from <= offset && offset < i.to);
     return foundRate?.rate ? foundRate.rate : 0;
   }
+
+  static getMaxTollPerDay(): number {
+    return MAX_TOLL_PER_DAY;
+  }
 }
+
+const MAX_TOLL_PER_DAY = 60;
 
 const tollFreeVehicles = tollFreeVehiclesRaw as VehicleType[];
 

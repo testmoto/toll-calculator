@@ -1,7 +1,14 @@
-import type { AppProps } from 'next/app';
 import 'reflect-metadata';
-import '../styles/globals.css';
 
-export default function App({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />;
+import { NextUIProvider } from '@nextui-org/react';
+import { AppProps } from 'next/app';
+
+function TollCalculatorApp({ Component, pageProps }: AppProps) {
+  return (
+    <NextUIProvider>
+      <Component {...pageProps} />
+    </NextUIProvider>
+  );
 }
+
+export default TollCalculatorApp;

@@ -7,3 +7,9 @@ export enum VehicleType {
   Military = 'Military',
   Car = 'Car',
 }
+
+export function isValidVehicleType(
+  vehicleType: string,
+): vehicleType is VehicleType {
+  return Object.values(VehicleType).includes(vehicleType as VehicleType);
+}

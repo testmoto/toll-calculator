@@ -7,16 +7,19 @@ import {
 } from 'next-api-decorators';
 import {
   createTollReport,
-  CalculateTollException,
+  InvalidVehicleException,
 } from './app/create-toll-report';
+import { VehicleType } from './domain/vehicle-type';
 import { TollReportInput } from './dto/toll-report-input.dto';
-import { tollInterceptor } from './interceptors/toll.interceptor';
+import { TollReportOutput } from './dto/toll-report-output.dto';
+import { invalidVehicleInterceptor } from './interceptors/invalid-vehicle.interceptor';
 
-@Catch(tollInterceptor, CalculateTollException)
+@Catch(invalidVehicleInterceptor, InvalidVehicleException)
 class TollReportController {
   @Post()
-  public async handle(@Body(ValidationPipe) input: TollReportInput) {
-    return createTollReport(input);
+  public handle(@Body(ValidationPipe) input: TollReportInput) {
+    const report = createTollReport(input);
+    return TollReportOutput.fromDomain(report);
   }
 }
 
