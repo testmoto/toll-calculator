@@ -1,3 +1,6 @@
+Demo on Vercel:
+[https://toll-calculator-6klep4beh-testmoto.vercel.app/](https://toll-calculator-6klep4beh-testmoto.vercel.app/)
+
 Run the development server:
 
 ```bash
