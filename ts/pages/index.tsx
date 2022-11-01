@@ -21,10 +21,11 @@ import {
   useRef,
   useState,
 } from 'react';
+import { fetchTollReport } from '../hooks/fetch-toll-report';
 import { VehicleType } from './api/domain/vehicle-type';
 import { TollReportOutput } from './api/dto/toll-report-output.dto';
 import { getISODateString, getISOTimeString } from './api/lib/get-iso-date';
-import { fetchTollReport } from './hooks/fetch-toll-report';
+
 //#endregion
 
 export default function Home() {

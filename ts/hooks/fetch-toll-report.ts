@@ -1,4 +1,4 @@
-import { TollReportOutput } from '../api/dto/toll-report-output.dto';
+import { TollReportOutput } from '../pages/api/dto/toll-report-output.dto';
 
 export const fetchTollReport = async (
   vehicleType: string,
